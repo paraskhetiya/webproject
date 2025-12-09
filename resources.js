@@ -1,75 +1,120 @@
-
-
-const jobApplications = [
-  {
-    title: "DevOps Engineer",
-    company: "CloudStream Solutions",
-    role: "Contract",
-    industry: "Cloud Computing",
-    status: "Rejected",
-    location: "New York, NY",
-    date: "2025-09-01",
-    link: "#"
-  },
-  {
-    title: "Marketing Specialist",
-    company: "GreenGrowth Co.",
-    role: "Full-time",
-    industry: "Non-profit",
-    status: "Interview Scheduled",
-    location: "Remote",
-    date: "2025-11-06",
-    link: "#"
-  }
-];
-
-localStorage.setItem("jobApplications", JSON.stringify(jobApplications));
-
-
 function loadJobApplications() {
   const tableBody = document.getElementById("jobTableBody");
-  tableBody.innerHTML = ""; // Clear previous rows if any
-
+  
+  if (!tableBody) {
+    console.error("Table body element not found!");
+    return;
+  }
+  
+  tableBody.innerHTML = "";
   const jobs = JSON.parse(localStorage.getItem("jobApplications")) || [];
+  
 
-  if (jobs.length === 0) {
+  const params = new URLSearchParams(window.location.search);
+  const search = params.get("search")?.toLowerCase() || "";
+  
+  console.log("Total jobs:", jobs.length);
+  console.log("Search term:", search);
+  
+  const filteredJobs = search ? jobs.filter(job =>
+    (job.title || '').toLowerCase().includes(search) ||
+    (job.company || '').toLowerCase().includes(search) ||
+    (job.role || '').toLowerCase().includes(search) ||
+    (job.industry || '').toLowerCase().includes(search) ||
+    (job.location || '').toLowerCase().includes(search) ||
+    (job.status || '').toLowerCase().includes(search)
+  ) : jobs;
+  
+  console.log("Filtered jobs:", filteredJobs.length);
+  
+  if (filteredJobs.length === 0) {
+    const message = search 
+      ? `No results found for "<b>${search}</b>"`
+      : "No applications found. Go to Dashboard to add applications!";
+    
     tableBody.innerHTML = `
       <tr>
         <td colspan="8" style="text-align:center; padding:20px; color:#888;">
-          No applications found. Please add data first.
+          ${message}
         </td>
       </tr>`;
     return;
   }
-
-  jobs.forEach(job => {
+  
+  // Show filtered results
+  filteredJobs.forEach(job => {
     const row = document.createElement("tr");
-
-    // Badge color based on status
+    
+    // Determine badge color based on status
     let badgeClass = "bg-secondary";
-    if (job.status.toLowerCase().includes("rejected")) badgeClass = "bg-danger";
-    else if (job.status.toLowerCase().includes("interview")) badgeClass = "bg-warning text-dark";
-    else if (job.status.toLowerCase().includes("applied")) badgeClass = "bg-primary";
-    else if (job.status.toLowerCase().includes("offer")) badgeClass = "bg-success";
-
+    const statusLower = (job.status || '').toLowerCase();
+    
+    if (statusLower.includes("rejected")) {
+      badgeClass = "bg-danger";
+    } else if (statusLower.includes("interview")) {
+      badgeClass = "bg-warning text-dark";
+    } else if (statusLower.includes("applied")) {
+      badgeClass = "bg-primary";
+    } else if (statusLower.includes("offer")) {
+      badgeClass = "bg-success";
+    } else if (statusLower.includes("awaiting") || statusLower.includes("follow")) {
+      badgeClass = "bg-secondary";
+    }
+    
     row.innerHTML = `
-      <td data-label="Posting Title">${job.title}</td>
-      <td data-label="Company">${job.company}</td>
-      <td data-label="Role">${job.role}</td>
-      <td data-label="Industry">${job.industry}</td>
+      <td data-label="Posting Title">${job.title || 'N/A'}</td>
+      <td data-label="Company">${job.company || 'N/A'}</td>
+      <td data-label="Role">${job.role || 'Full-time'}</td>
+      <td data-label="Industry">${job.industry || 'N/A'}</td>
       <td data-label="Application Status">
-        <span class="badge ${badgeClass}">${job.status}</span>
+        <span class="badge ${badgeClass}">${job.status || 'N/A'}</span>
       </td>
-      <td data-label="Location">${job.location}</td>
-      <td data-label="Application Date">${job.date}</td>
+      <td data-label="Location">${job.location || 'Remote/Hybrid'}</td>
+      <td data-label="Application Date">${job.date || 'N/A'}</td>
       <td data-label="Link">
-        <a href="${job.link}" target="_blank" class="btn btn-sm btn-info">View Posting</a>
+        ${job.link ? `<a href="${job.link}" target="_blank" class="btn btn-sm btn-info">View Posting</a>` : 'N/A'}
       </td>
     `;
-
     tableBody.appendChild(row);
   });
 }
 
-// Run when page loads
-document.addEventListener("DOMContentLoaded", loadJobApplications);
+// Handle search form submission
+function setupSearch() {
+  const searchForm = document.querySelector('.navbar-search form');
+  const searchInput = document.querySelector('.navbar-search input');
+  
+  if (searchForm && searchInput) {
+    
+    searchForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const searchTerm = searchInput.value.trim();
+      console.log("Search submitted:", searchTerm);
+      
+      if (searchTerm) {
+        
+        window.location.href = `resources.html?search=${encodeURIComponent(searchTerm)}`;
+      } else {
+       
+        window.location.href = 'resources.html';
+      }
+    });
+    
+    
+    const params = new URLSearchParams(window.location.search);
+    const search = params.get("search");
+    if (search) {
+      searchInput.value = search;
+    }
+  }
+}
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  console.log("DOM loaded");
+  setupSearch();
+  loadJobApplications();
+});

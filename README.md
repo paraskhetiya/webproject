@@ -1,1 +1,2 @@
-# Instructions can be written here.
+Work on design and color pallets in this.
+

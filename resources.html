@@ -3,8 +3,47 @@
 <head>
     <title>Job Application Tracker</title>
     <link rel="stylesheet" href="resources.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="navbar.css">
 </head>
 <body>
+    <header>
+        <div class="navbar">
+            <div class="navbar-left">
+                <a href="javascript:history.back()" class="back-home" style="padding: 8px 8px;color:white;"><i class="fa-solid fa-circle-left"></i></a>
+
+                <a href="javascript:history.forward()" class="forward-btn" style="padding: 8px 8px;color:white;"><i class="fa-solid fa-circle-right"></i></a>
+            <img src="icon.jpg" alt="Our logo">
+        </div>
+        <div class="navbar-middle">
+            <a href="index.html">Dashboard</a>
+            <a href="resources.html">Resources</a>
+            <a href="analysis.html">Analytics</a>
+            <a href="#newapplication" data-bs-toggle="modal" data-bs-target="#applicationModal">New Application</a>
+            <a href="about.html">About</a>
+        </div>
+        <div class="navbar-search">
+            <form action="">
+                <input type="text" placeholder="Search">
+                <!-- mic by kunj start -->
+                <div class="navbar-mic">
+                    <button id="mic-btn" type="button" title="Voice Search" aria-label="Voice Search">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                </div>
+                <!-- mic by kunj end -->
+            </form>
+        </div>
+        <div class="navbar-icons">
+            <div id="auth-controls">
+                 <div id="user-icon"><i class="fas fa-user-circle"></i></div>
+                    <a id="auth-button" href="login.html">Login</a>
+                </div>
+            </div>
+        </div>
+        </header>
+        <div class="main">
     <h2 class="mb-3">Application Log</h2>
 
     <div id="alertContainer" class="mt-3"></div> 
@@ -28,7 +67,10 @@
             </tbody>
         </table>
     </div>
-
+    </div>
+    
+    <script src="navbar.js"></script>
+        <script src="mic.js"></script>
     <script src="resources.js"></script>
 </body>
 </html>
