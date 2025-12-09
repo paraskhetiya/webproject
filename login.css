@@ -1,93 +1,135 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #7e7c79;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #4A2473, #7F3FBF);
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
 }
 
 .container {
-    background-color: #FFD3D5;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #FFDCE5;
+    padding: 40px 50px;
     width: 100%;
-    max-width: 500px;
+    max-width: 500px; /* Max width remains 500px */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    animation: fadeIn 0.8s ease;
 }
 
-h1 {
-    text-align: center;
-    color: #540863;
+.title-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 25px;
 }
 
-.form-group {
-    margin-bottom: 15px;
+h1 {
+    color: #4A2473;
+    text-align: center;
+    font-size: 26px;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
+.profile-icon {
+    font-size: 34px;
+    color: #4A2473;
 }
 
-input[type="text"],
-input[type="date"],
-input[type="number"],
-select {
+/* Icon Input Styling */
+.icon-input {
+    position: relative;
+}
+
+.icon-input i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6A3A8A;
+    font-size: 17px;
+    z-index: 10; /* Ensure icon is above input field */
+}
+
+input, select {
+    /* --- CRITICAL FIX: box-sizing: border-box; --- */
+    box-sizing: border-box; 
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* Ensures padding doesn't affect the overall width */
-    font-size: 16px;
+    padding: 12px 12px 12px 40px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    background-color: white;
+    outline: none;
+    margin-bottom: 16px;
+    transition: 0.3s;
+    -webkit-appearance: none; /* For date/select consistency */
+    -moz-appearance: none;
+    appearance: none;
 }
 
-.required {
-    color: red;
-    font-size: 0.9em;
+/* Specific adjustments for date input placeholder appearance */
+input[type="date"]::before {
+    content: attr(placeholder);
+    color: #888;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="date"]:valid::before {
+    content: "";
+}
+
+input:focus, select:focus {
+    border-color: #4A2473;
+    box-shadow: 0 0 8px rgba(74,36,115,0.3);
 }
 
 .submit-btn {
-    background-color: #92487A;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    margin-top: 12px;
     width: 100%;
-    font-size: 18px;
-    margin-top: 15px;
-    transition: background-color 0.3s ease;
+    padding: 14px;
+    background-color: #4A2473;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .submit-btn:hover {
-    background-color:#0056b3;
+    background-color: #7F3FBF;
+    transform: translateY(-2px);
 }
 
 #message {
+    margin-top: 18px;
     text-align: center;
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: bold;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
 }
 
 .success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+    background-color: #D1F7D1;
+    color: #256B2F;
+    border: 1px solid #A7E8A7;
 }
 
 .error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    background-color: #FAD4D4;
+    color: #8A1E1E;
+    border: 1px solid #F4A4A4;
 }
 
 .hidden {
     display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
